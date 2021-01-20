@@ -1,6 +1,6 @@
 import requests
 
-from flask import Blueprint, make_response, render_template, request, abort, redirect
+from flask import Blueprint, make_response, render_template, request, abort, redirect, current_app
 from linebot.models import TextSendMessage
 
 from Config import LIFF_BPNAME
