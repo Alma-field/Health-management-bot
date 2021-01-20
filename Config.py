@@ -17,6 +17,8 @@ LINE_BPNAME = 'Line'
 
 LIFF_BPNAME = 'Liff'
 
+ADMIN_BPNAME = 'Admin'
+
 #アップロードされる拡張子の制限
 ALLOWED_EXTENSIONS = set(['jpeg','jpg','png','gif','bmp','svg','ico'])
 

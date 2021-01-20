@@ -122,8 +122,9 @@ class line_db(database):
 		status = 'home:none'
 		role = 'user'
 		liff_status = 'none'
-		cache = ''
-		sql = f'INSERT INTO users (userid,name,status,role,liff_status,cache) VALUES ({", ".join([self.char]*6)});'
+		cache = self.generate_cookies()
+		showname = name
+		sql = f'INSERT INTO users (userid,name,status,role,liff_status,cache,showname) VALUES ({", ".join([self.char]*7)});'
 		self.c.execute(sql,(userid,username,status,role,liff_status,cache))
 		self.conn.commit()
 
@@ -180,15 +181,6 @@ class line_db(database):
 		self.c.execute(sql, (userid,))
 		self.conn.commit()
 
-	def get_users_from_placeid(self, placeid):
-		sql = f'SELECT userid FROM users WHERE line_place LIKE \'%,{str(placeid).zfill(3)},%\';'
-		self.c.execute(sql)
-		try:
-			users = list(self.c.fetchone())
-		except TypeError as e:
-			users = []
-		return users
-
 	def set_health_data(self, userid, data):
 		today = self.now_str()[:10]
 		sql = f'SELECT id FROM condition WHERE userid={self.char} AND date={self.char} LIMIT 1;'
@@ -209,3 +201,15 @@ class line_db(database):
 			self.c.execute(sql, tuple([id, userid, today]+data))
 		self.conn.commit()
 		return True
+
+	def get_newest_helth_data(self):
+		sql = 'SELECT cache, showname FROM users;'
+		self.c.execute(sql)
+		result = self.c.fetchall()
+		name_dict = {}
+		for item in result:
+			name_dict[item[0]] = item[1]
+		sql = 'SELECT id, userid, date, temperature, q1, q2, q3, q4, q5, q6 FROM ( SELECT *, row_number() OVER (PARTITION BY userid ORDER BY date DESC) AS number FROM condition ) AS data WHERE number=1 AND userid!=\'\';'
+		self.c.execute(sql)
+		result = self.c.fetchall()
+		return result, name_dict

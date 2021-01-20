@@ -67,6 +67,9 @@ def response_replay(event):
 			res_user_status(event)
 		elif message == 'now':
 			const_message(event, f'現在は{db.now_str(string=True)}です')
+		elif message == '表示名変更':
+			const_message(event, f'表示名を変更します。\n変更後の名前を入力してください。')
+			db.set_userstatus(userid, 'home:name', username)
 		else:
 			parrot_message(event)
 	else:
@@ -80,6 +83,10 @@ def event_of_command(event, command):
 	if command == 'home:none':
 		#ここは絶対に通らない
 		parrot_message(event)
+	elif command == 'home:name':
+		db.set_user_by_id(userid, key=['showname'], value=[message])
+		db.set_userstatus(userid, 'home:none', username)
+		const_message(event, f'表示名を「{message}」に変更しました。')
 	else:
 		db.set_userstatus(userid, 'home:none', username)
 		parrot_message(event)
@@ -89,7 +96,7 @@ def command_check(command):
 		c_l = command.split(':')
 	else:
 		return False
-	command_list = {'home':['none']}
+	command_list = {'home':['none', 'name']}
 	return c_l[0] in command_list and c_l[1] in command_list[c_l[0]]
 
 #画像メッセージが来た場合

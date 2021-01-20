@@ -44,6 +44,7 @@ def Health():
 				question.append(request.form.get(f'q{i}', 'false') == 'true')
 			#print(temperature, question)
 			data = [temperature] + question
+			cache = current_app.db.get_user_by_id(userid, key=['cache'])
 			current_app.db.set_health_data(userid, data)
 			message = '回答ありがとうございます。\n'
 			if temperature >= 37.5 or any(question):

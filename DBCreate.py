@@ -1,9 +1,9 @@
 import os
 import Config
-from database import database
+from database import line_db
 
 dbname = os.environ["DATABASE_URL"]
-db = database(dbname)
+db = line_db(dbname)
 
 sql = """
 CREATE TABLE users (
@@ -12,7 +12,8 @@ CREATE TABLE users (
 	status text NOT NULL,
 	role text NOT NULL,
 	liff_status text NOT NULL,
-	cache text,
+	cache text NOT NULL,
+	showname text NOT NULL,
 	CONSTRAINT users_pkey PRIMARY KEY (userid)
 );
 """
@@ -25,7 +26,7 @@ CREATE TABLE department (
 	CONSTRAINT department_pkey PRIMARY KEY (id)
 );
 """
-sql = "DROP TABLE department;"
+#sql = "DROP TABLE department;"
 #db.c.execute(sql)
 
 sql = """
@@ -47,6 +48,6 @@ INSERT INTO condition (id, userid, date, temperature, q1, q2, q3, q4, q5, q6) VA
 #sql = "DROP TABLE condition;"
 #db.c.execute(sql)
 
-db.conn.commit()
+#db.conn.commit()
 
 del db

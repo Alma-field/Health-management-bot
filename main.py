@@ -13,6 +13,8 @@ import line
 #life app
 from liff import liff
 
+from admin import admin
+
 dbname = os.environ["DATABASE_URL"]
 
 app = Flask(__name__)
@@ -20,6 +22,7 @@ app.config["JSON_AS_ASCII"] = JSON_AS_ASCII
 app.register_blueprint(static, url_prefix='/static')
 app.register_blueprint(line.line, url_prefix='/line')
 app.register_blueprint(liff, url_prefix='/liff')
+app.register_blueprint(admin, url_prefix='/admin')
 
 try:
 	setattr(app, 'db', line.db)
@@ -97,6 +100,10 @@ def halfmask(arg):
 @app.template_filter('stringmask')
 def stringmask(arg):
 	return Markup(''.join(['*']*len(arg)))
+
+@app.template_filter('truefalse')
+def stringmask(arg):
+	return Markup('有' if arg == str(True) else '無')
 
 ###################その他
 if __name__ == '__main__':
