@@ -1,8 +1,5 @@
 import os, json
-from flask import Flask, request, abort, Markup, make_response, render_template
-
-#データベース
-from database import water_db
+from flask import Flask, abort, Markup, make_response, render_template
 
 #各種設定
 from Config import *
@@ -71,9 +68,7 @@ def error(code):
 
 @app.route('/')
 def RootPage():
-	places = app.db.get_placeid_and_name()
-	response = make_response(render_template('RootPage.html', listp=places))
-	return response
+	return 'Hello World!'
 
 @app.route('/robots.txt')
 def ShowRobots_txt():
@@ -83,7 +78,7 @@ def ShowRobots_txt():
 
 @app.route('/now')
 def NowString():
-	return app.mail_db.now_str()
+	return app.db.now_str()
 
 ###################カスタムフィルター
 @app.template_filter('linebreaksbr')

@@ -1,0 +1,21 @@
+#環境変数[.env]
+python-dotenv
+
+#タイムゾーンデータ(Asia/Tokyoなど) - Windowsのみ
+tzdata
+
+#追加サーバー用 - LINUXのみ
+gunicorn
+
+#サーバー
+Flask
+
+#データベース
+Flask-SQLAlchemy
+#(Heroku)Postgresql
+psycopg2
+#mysql
+mysql-connector-python
+
+#LINE BOT
+line-bot-sdk
