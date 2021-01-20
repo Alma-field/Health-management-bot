@@ -202,7 +202,7 @@ class line_db(database):
 			sql += ', '.join(sql_l) + f'WHERE id={self.char};'
 			self.c.execute(sql, tuple(data+[id]))
 		except TypeError as e:
-			sql = f'SELECT id FROM condition WHERE ORDER BY id DESC LIMIT 1;'
+			sql = f'SELECT id FROM condition ORDER BY id DESC LIMIT 1;'
 			self.c.execute(sql)
 			id = self.c.fetchone()[0]
 			sql = f'INSERT INTO condition (id, userid, date, temperature, q1, q2, q3, q4, q5, q6) VALUES ({", ".join([self.char]*10)});'
