@@ -44,7 +44,7 @@ def Health():
 				question.append(request.form.get(f'q{i}', 'false') == 'true')
 			#print(temperature, question)
 			data = [temperature] + question
-			db.set_health_data(userid, data)
+			current_app.db.set_health_data(userid, data)
 			message = '回答ありがとうございます。\n'
 			if temperature >= 37.5 or any(question):
 				message += '出社することが可能です。'
