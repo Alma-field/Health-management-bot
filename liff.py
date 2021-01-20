@@ -47,9 +47,9 @@ def Health():
 			current_app.db.set_health_data(userid, data)
 			message = '回答ありがとうございます。\n'
 			if temperature >= 37.5 or any(question):
-				message += '出社することが可能です。'
-			else:
 				message += '出社することはできません。'
+			else:
+				message += '出社することが可能です。'
 			current_app.line_bot_api.push_message(userid, TextSendMessage(text=message))
 			response = redirect('https://liff.line.me/1655595024-vRM2ojo9')
 		else:
