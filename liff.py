@@ -27,22 +27,27 @@ def Health():
 		response = requests.get(url)
 		if response.status_code == requests.codes.ok:
 			data = response.json()
-			print(data)
+			#print(data)
 			if not data['client_id'] == '1655595024':abort(400)
-			print('client_id : ok')
+			#print('client_id : ok')
 			url = 'https://api.line.me/v2/profile'
 			headers = {'Authorization': f'Bearer {accesstoken}'}
 			data = requests.get(url, headers=headers).json()
-			print(data)
-			print('userid : ok')
+			#print(data)
+			#print('userid : ok')
 			userid = data['userId']
-			print(userid)
-			temperature = request.form.get('temperature', '')
+			#print(userid)
+			temperature = float(request.form.get('temperature', ''))
 			question = []
 			for i in range(1,7):
 				question.append(request.form.get(f'q{i}', 'false') == 'true')
-			print(temperature, question)
-			response = make_response(render_template(f'{LIFF_BPNAME}/HealthAccept.html'))
+			#print(temperature, question)
+			response = redirect('https://liff.line.me/1655595024-vRM2ojo9')
 		else:
 			abort(400)
+	return response
+
+@liff.route('/close')
+def Close():
+	response = make_response(render_template(f'{LIFF_BPNAME}/HealthAccept.html'))
 	return response
