@@ -1,6 +1,7 @@
 import requests
 
 from flask import Blueprint, make_response, render_template, request, abort, redirect
+from linebot.models import TextSendMessage
 
 from Config import LIFF_BPNAME
 
@@ -42,6 +43,14 @@ def Health():
 			for i in range(1,7):
 				question.append(request.form.get(f'q{i}', 'false') == 'true')
 			#print(temperature, question)
+			data = [temperature] + question
+			db.set_health_data(userid, data)
+			message = '回答ありがとうございます。\n'
+			if temperature >= 37.5 or any(question):
+				message += '出社することが可能です。'
+			else:
+				message += '出社することはできません。'
+			current_app.line_bot_api.push_message(userid, TextSendMessage(text=))
 			response = redirect('https://liff.line.me/1655595024-vRM2ojo9')
 		else:
 			abort(400)

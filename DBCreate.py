@@ -21,16 +21,18 @@ CREATE TABLE users (
 sql = """
 CREATE TABLE department (
 	id text NOT NULL,
-	level integer NOT NULL,
 	name text NOT NULL,
 	CONSTRAINT department_pkey PRIMARY KEY (id)
 );
 """
+sql = "DROP TABLE department;"
 #db.c.execute(sql)
 
 sql = """
 CREATE TABLE condition (
 	id integer NOT NULL,
+	userid text NOT NULL,
+	date date NOT NULL,
 	temperature numeric NOT NULL,
 	q1 boolean NOT NULL,
 	q2 boolean NOT NULL,
@@ -38,11 +40,13 @@ CREATE TABLE condition (
 	q4 boolean NOT NULL,
 	q5 boolean NOT NULL,
 	q6 boolean NOT NULL,
-	userid text NOT NULL,
 	CONSTRAINT condition_pkey PRIMARY KEY (id)
 );
+INSERT INTO condition (id, userid, date, temperature, q1, q2, q3, q4, q5, q6) VALUES (0, \'\', \'2021-01-01\', 0.0, false, false, false, false, false, false);
 """
 #sql = "DROP TABLE condition;"
-db.c.execute(sql)
+#db.c.execute(sql)
 
 db.conn.commit()
+
+del db

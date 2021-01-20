@@ -123,7 +123,7 @@ class line_db(database):
 		role = 'user'
 		liff_status = 'none'
 		cache = ''
-		sql = f'INSERT INTO users (userid,name,status,role,liff_status,cache) VALUES ({", ".join([self.char]*6)})'
+		sql = f'INSERT INTO users (userid,name,status,role,liff_status,cache) VALUES ({", ".join([self.char]*6)});'
 		self.c.execute(sql,(userid,username,status,role,liff_status,cache))
 		self.conn.commit()
 
@@ -188,3 +188,24 @@ class line_db(database):
 		except TypeError as e:
 			users = []
 		return users
+
+	def set_health_data(self, userid, data):
+		today = self.now_str()[:10]
+		sql = f'SELECT id FROM condition WHERE userid={self.char} AND date={self.char} LIMIT 1;'
+		self.c.execute(sql, (userid, today))
+		try:
+			id = self.c.fetchone()[0]
+			sql = f'UPDATE condition SET '
+			sql_l = []
+			for i in 'temperature, q1, q2, q3, q4, q5, q6'.split(', '):
+				sql_l.append(f'{i}={self.char}')
+			sql += ', '.join(sql_l) + f'WHERE id={self.char};'
+			self.c.execute(sql, tuple(data+[id]))
+		except TypeError as e:
+			sql = f'SELECT id FROM condition WHERE ORDER BY id DESC LIMIT 1;'
+			self.c.execute(sql)
+			id = self.c.fetchone()[0]
+			sql = f'INSERT INTO condition (id, userid, date, temperature, q1, q2, q3, q4, q5, q6) VALUES ({", ".join([self.char]*10)});'
+			self.c.execute(sql, tuple([id, userid, today]+data))
+		self.conn.commit()
+		return True
