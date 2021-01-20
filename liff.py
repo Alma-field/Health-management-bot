@@ -20,7 +20,6 @@ def v1_sample():
 def Health():
 	if request.method in ['GET', 'HEAD']:
 		response = make_response(render_template(f'{LIFF_BPNAME}/Health.html'))
-		return response
 	else:
 		accesstoken = request.form.get('accesstoken', '')
 		if not accesstoken:abort(400)
@@ -43,5 +42,7 @@ def Health():
 			for i in range(1,7):
 				question.append(request.form.get(f'q{i}', 'false') == 'true')
 			print(temperature, question)
+			response = make_response(render_template(f'{LIFF_BPNAME}/HealthAccept.html'))
 		else:
 			abort(400)
+		return response
