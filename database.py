@@ -1,14 +1,22 @@
-from flask_sqlalchemy import SQLAlchemy
-from flask import abort
-from datetime import datetime, timedelta
-from zoneinfo import ZoneInfo
+from sys import version_info
 from string import ascii_lowercase, ascii_uppercase, digits
 from random import choices
+
+from flask_sqlalchemy import SQLAlchemy
+from flask import abort
+
 from Config import *
+
+if version_info.minor >= 9:
+	from datetime import datetime, timedelta
+	from zoneinfo import ZoneInfo
+	JST = ZoneInfo("Asia/Tokyo")
+else:
+	from datetime import datetime, timedelta, timezone
+	JST = timezone(timedelta(hours=+9), 'JST')
 
 cookie_candidate = digits+ascii_uppercase+ascii_lowercase
 pin_candidate = digits
-JST = ZoneInfo("Asia/Tokyo")
 
 #######################################DB制御
 class database():

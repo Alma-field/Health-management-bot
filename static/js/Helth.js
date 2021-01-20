@@ -46,9 +46,7 @@ function initializeLiff(myLiffId) {
  */
 function initializeApp() {
 	displayIsInClientInfo();
-	console.log('ok - 1');
 	registerButtonHandlers();
-	console.log('ok - 2');
 	if (!liff.isLoggedIn() && !liff.isInClient()) {
 		alert('To get an access token, you need to be logged in. Please tap the "login" button below and try again.');
 	} else {
