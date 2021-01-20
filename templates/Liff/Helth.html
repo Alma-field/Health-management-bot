@@ -32,7 +32,7 @@
 				</table>
 			</div>
 			<div class="contents">
-				<form action="{{ url_for('Liff.Helth', _external=True) }}" method="POST">
+				<form action="{{ url_for('Liff.Helth', _external=True) }}" method="POST" id="idform">
 					<table>
 						<caption>体調登録</caption>
 						<thead>
@@ -42,7 +42,7 @@
 						</thead>
 						<tbody>
 							<tr>
-								<th colspan="2"><input type="text" id="accessToken" name="accesstoken" value=""></th>
+								<th colspan="2"><input type="text" id="accesstoken" name="accesstoken" value=""></th>
 							</tr>
 							<tr>
 								<th>体温</th>
