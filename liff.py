@@ -45,4 +45,4 @@ def Health():
 			response = make_response(render_template(f'{LIFF_BPNAME}/HealthAccept.html'))
 		else:
 			abort(400)
-		return response
+	return response
