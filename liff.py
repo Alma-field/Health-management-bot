@@ -17,5 +17,4 @@ def v1_sample():
 @liff.route('/helth')
 def helth():
 	response = make_response(render_template(f'{LIFF_BPNAME}/Helth.html'))
-	response = make_response(render_template(f'{LIFF_BPNAME}/v1-sample.html'))
 	return response
