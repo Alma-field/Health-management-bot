@@ -35,7 +35,7 @@
 			</table>
 		</div>
 		<div class="contents">
-			<form action="{{ url_for('Liff.Helth', _external=True) }}" method="POST" name="idform" id="idform">
+			<form action="{{ url_for('Liff.Health', _external=True) }}" method="POST" name="idform" id="idform">
 				<table>
 					<caption>体調登録</caption>
 					<thead>
@@ -95,6 +95,9 @@
 								<label>有り<input type="radio" name="q6" value="true" required></label>
 								<label>無し<input type="radio" name="q6" value="false" checked></label>
 							</td>
+						</tr>
+						<tr>
+							<th colspan="2"><input type="submit" value="登録"></th>
 						</tr>
 					</tbody>
 				</table>

@@ -1,6 +1,6 @@
 import requests
 
-from flask import Blueprint, make_response, render_template, abort
+from flask import Blueprint, make_response, render_template, request, abort
 
 from Config import LIFF_BPNAME
 
