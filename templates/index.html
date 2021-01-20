@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		{% block head %}
+		{% endblock %}
+		{% block title %}
+		{% endblock %}
+		<link rel="stylesheet" type="text/css" href="{{ url_for('Static.css', file_name='css', _external=True) }}">
+	</head>
+	<body>
+		{% include "header.html" %}
+		{% block body %}
+		{% endblock %}
+		{% include "footer.html" %}
+	</body>
+</html>

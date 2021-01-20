@@ -1,0 +1,24 @@
+.border{
+	display: inline-block;         /* 打ち消し線と文字の幅を揃えられるようにする */
+	position: relative;            /* 打ち消し線の位置を調整する時の基準点になるようにする */
+}
+
+.border:before {
+	content: '';                	/* 擬似要素に実体を持たせる */
+	width: 100%;                	/* 打ち消し線の幅を指定する*/
+	height: 1px;                	/* 線を表示させるために1pxだけ高さを入れる */
+	border-top: solid 3px #F44336;  /* 二重線の上側になる線をひく */
+	position: absolute;            	/* 線の位置を自由に動かせるようにする */
+	left: 0 ;                    	/* 線の位置を左に揃える */
+	top: calc(50% - 4px) ;          /* 線の位置を真ん中から3px上にする */
+}
+
+.border:after {
+	content: '';                		/* 擬似要素に実体を持たせる */
+	width: 100%;                		/* 打ち消し線の幅を指定する*/
+	height: 1px;                		/* 線を表示させるために1pxだけ高さを入れる */
+	border-bottom: solid 3px #F44336;   /* 二重線の下側になる線をひく */
+	position: absolute;           		/* 線の位置を自由に動かせるようにする */
+	left: 0 ;                    		/* 線の位置を左に揃える */
+	bottom: calc(50% - 4px);        	/* 線の位置を真ん中から3px下にする */
+}

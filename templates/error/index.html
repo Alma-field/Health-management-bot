@@ -1,0 +1,10 @@
+{% extends "index.html" %}
+{% block title %}
+<title>エラー - {{ ErrorCode }}</title>
+{% endblock %}
+{% block body %}
+<h1>{{ ErrorCode }} {{ Summary }}</h1>
+<div class="contents">
+	<h2>{{ Detail }}</h2>
+</div>
+{% endblock %}

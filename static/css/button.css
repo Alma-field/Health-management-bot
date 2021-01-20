@@ -1,0 +1,33 @@
+/*付箋型*/
+.btn-sticky {
+	display: inline-block;
+	padding: 0.5em 1em;
+	text-decoration: none;
+	background: #f7f7f7;
+	border-left: solid 6px #ff7c5c;/*左線*/
+	color: #ff7c5c;/*文字色*/
+	font-weight: bold;
+	box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.29);
+}
+.btn-sticky:active {
+	box-shadow: inset 0 0 2px rgba(128, 128, 128, 0.1);
+	transform: translateY(2px);
+}
+/*削除ボタン*/
+.btn-square-so-pop {
+  position: relative;
+  display: inline-block;
+  padding: 0.25em 0.5em;
+  text-decoration: none;
+  color: #FFF;
+  background: #ff0000;/*色*/
+  border-radius: 4px;/*角の丸み*/
+  box-shadow: inset 0 2px 0 rgba(255,255,255,0.2), inset 0 -2px 0 rgba(0, 0, 0, 0.05);
+  font-weight: bold;
+  border: solid 2px #bb0000;/*線色*/
+}
+
+.btn-square-so-pop:active {
+  /*押したとき*/
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.30);
+}

@@ -1,0 +1,22 @@
+{% extends "index.html" %}
+{% block title %}
+<title>トップページ</title>
+{% endblock %}
+{% block body %}
+<h1>水位予測</h1>
+<h2>メール配信</h2>
+<ul>
+	<li><a href="{{ url_for('Broadcast.Registration') }}">アラーム登録・変更</a></li>
+	<li><a href="{{ url_for('Broadcast.Release') }}">アラーム解除</a></li>
+</ul>
+<h2>予測データ</h2>
+<form action='{{ url_for('Water.WaterShow') }}' method='POST'>
+	<label>予測地点　</label>
+	<select name='point'>
+		{% for list in listp %}
+		<option value='{{list[0]}}'>{{list[1]}}</option>
+		{% endfor %}
+	</select>
+	<input type="submit" value="選択">
+</form>
+{% endblock %}

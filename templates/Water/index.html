@@ -1,0 +1,49 @@
+{% extends "index.html" %}
+{% block title %}
+<title>{{point_ja}}</title>
+<style>.image{width: 80%; height: aute;}</style>
+<!-- Bokeh -->
+<link rel="stylesheet" href="http://cdn.pydata.org/bokeh/release/bokeh-1.2.0.min.css" type="text/css" />
+<script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-2.2.3.min.js"></script>
+<script type="text/javascript">Bokeh.set_log_level("info");</script>
+{% endblock %}
+{% block body %}
+<h1>{{point_ja}}の予測データ</h1>
+<p>{{point_ja}}の水位を2時間先まで10分間隔で予測したデータを表とグラフで表示します。</p>
+<div class="contents">
+	<div>
+		<h2>表(危険時の水位は赤字で表示します。)</h2>
+		<table border="1">
+			<tr><th>日付</th><th>水位</th></tr>
+			{% if list1.__len__() == 0 %}
+			<tr><th colspan="2">指定の時間のデータが存在しません</th></tr>
+			{% else %}
+				{% for list in list1 %}
+					<tr><td>{{list[0].strftime("%Y-%m-%d %H:%M")}}</td><td>
+						{% if list[2] > 0 %}
+							<font color="red">{{list[1]}}</font>
+						{% else %}
+							{{list[1]}}
+						{% endif %}
+					</td></tr>
+				{% endfor %}
+			{% endif %}
+		</table>
+	</div>
+	<div style="height: 750px;">
+		<h2>グラフ</h2>
+		{{ div | safe }}
+		{{ script | safe }}
+		<form action='{{ url_for('Water.WaterShow') }}' method='POST'>
+			<label>他の予測地点の予測データ　</label>
+			<select name='point'>
+				{% for place in listp -%}
+				<option value='{{place[0]}}'{% if place[0] == placeid %} selected{% endif %}>{{place[1]}}</option>
+				{%- endfor %}
+			</select>
+			<input type="submit" value="選択">
+		</form>
+		<a href="/">topに戻る</a>
+	</div>
+</div>
+{% endblock %}

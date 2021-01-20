@@ -1,0 +1,20 @@
+h1{
+	text-align: center;
+	color: #ffffff;
+	background-color: #009abc;
+}
+h2{
+	border-bottom: dotted;
+	border-color: #c8c8c8;
+	border-width:1px;
+}
+table{
+	margin: 10px;
+}
+.red{
+	color: #ff0000;
+	font-weight: bold;
+}
+.strikethrough{
+	text-decoration: line-through;
+}
