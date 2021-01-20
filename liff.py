@@ -29,7 +29,7 @@ def Health():
 		if response.status_code == requests.codes.ok:
 			data = response.json()
 			print(data)
-			if not data['client_id'] == '1655594546':abort(400)
+			if not data['client_id'] == '1655595024':abort(400)
 			print('client_id : ok')
 			url = 'https://api.line.me/v2/profile'
 			headers = {'Authorization': f'Bearer {accesstoken}'}
