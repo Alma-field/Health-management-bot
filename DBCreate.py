@@ -26,6 +26,23 @@ CREATE TABLE department (
 	CONSTRAINT department_pkey PRIMARY KEY (id)
 );
 """
+#db.c.execute(sql)
+
+sql = """
+CREATE TABLE condition (
+	id integer NOT NULL,
+	temperature numeric NOT NULL,
+	q1 boolean NOT NULL,
+	q2 boolean NOT NULL,
+	q3 boolean NOT NULL,
+	q4 boolean NOT NULL,
+	q5 boolean NOT NULL,
+	q6 boolean NOT NULL,
+	userid text NOT NULL,
+	CONSTRAINT condition_pkey PRIMARY KEY (id)
+);
+"""
+#sql = "DROP TABLE condition;"
 db.c.execute(sql)
 
 db.conn.commit()
