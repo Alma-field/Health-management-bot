@@ -32,16 +32,16 @@
 				</table>
 			</div>
 			<div class="contents">
-				<form action="{{ url_for('Liff.Helth', _external=True) }}" method="POST" id="idform">
+				<form action="{{ url_for('Liff.Helth', _external=True) }}" method="POST" name="idform" id="idform">
 					<table>
 						<caption>体調登録</caption>
 						<thead>
-							<tr>
+							<tr style="display: none;">
 								<th colspan="2" id="attention" class="red"></th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
+							<tr style="display: none;">
 								<th colspan="2"><input type="text" id="accesstoken" name="accesstoken" value=""></th>
 							</tr>
 							<tr>
