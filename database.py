@@ -199,7 +199,7 @@ class line_db(database):
 			sql_l = []
 			for i in 'temperature, q1, q2, q3, q4, q5, q6'.split(', '):
 				sql_l.append(f'{i}={self.char}')
-			sql += ', '.join(sql_l) + f'WHERE id={self.char};'
+			sql += ', '.join(sql_l) + f' WHERE id={self.char};'
 			self.c.execute(sql, tuple(data+[id]))
 		except TypeError as e:
 			sql = f'SELECT id FROM condition ORDER BY id DESC LIMIT 1;'
