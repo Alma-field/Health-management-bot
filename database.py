@@ -114,11 +114,9 @@ class line_db(database):
 		status = 'home:none'
 		role = 'user'
 		liff_status = 'none'
-		line_place = '000,'
-		mail_address = '0,'
 		cache = ''
-		sql = f'INSERT INTO users (userid,name,status,role,liff_status,line_place,mail_address,cache) VALUES ({", ".join([self.char]*8)})'
-		self.c.execute(sql,(userid,username,status,role,liff_status,line_place,mail_address,cache))
+		sql = f'INSERT INTO users (userid,name,status,role,liff_status,cache) VALUES ({", ".join([self.char]*6)})'
+		self.c.execute(sql,(userid,username,status,role,liff_status,cache))
 		self.conn.commit()
 
 	def get_user_by_id(self,userid,key=[]):
