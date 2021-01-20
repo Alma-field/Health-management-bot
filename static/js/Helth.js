@@ -35,7 +35,7 @@ function initializeLiff(myLiffId) {
 		initializeApp();
 	})
 	.catch((err) => {
-		//document.getElementById("liffAppContent").classList.add('hidden');
+		document.getElementById("liffAppContent").classList.add('hidden');
 		document.getElementById("liffInitErrorMessage").classList.remove('hidden');
 		console.log(err.code, err.message);
 	});
@@ -46,7 +46,9 @@ function initializeLiff(myLiffId) {
  */
 function initializeApp() {
 	displayIsInClientInfo();
+	console.log('ok - 1');
 	registerButtonHandlers();
+	console.log('ok - 2');
 	if (!liff.isLoggedIn() && !liff.isInClient()) {
 		alert('To get an access token, you need to be logged in. Please tap the "login" button below and try again.');
 	} else {
@@ -85,17 +87,6 @@ function registerButtonHandlers() {
 			sendAlertIfNotInClient();
 		} else {
 			liff.closeWindow();
-		}
-	});
-
-	// get access token
-	document.getElementById('getAccessToken').addEventListener('click', function() {
-		if (!liff.isLoggedIn() && !liff.isInClient()) {
-			alert('To get an access token, you need to be logged in. Please tap the "login" button below and try again.');
-		} else {
-			const accessToken = liff.getAccessToken();
-			document.getElementById('accessTokenField').textContent = accessToken;
-			toggleAccessToken();
 		}
 	});
 
