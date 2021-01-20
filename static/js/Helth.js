@@ -50,7 +50,7 @@ function initializeApp() {
 		alert('To get an access token, you need to be logged in. Please tap the "login" button below and try again.');
 	} else {
 		const accessToken = liff.getAccessToken();
-		document.getElementById('accesstoken').value = accessToken;
+		document.idform.accesstoken.value = accessToken;
 	}
 
 	// check if the user is logged in/out, and disable inappropriate button
