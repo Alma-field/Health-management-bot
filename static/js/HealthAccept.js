@@ -38,7 +38,6 @@ function initializeLiff(myLiffId) {
 		document.getElementById("liffAppContent").classList.add('hidden');
 		document.getElementById("liffInitErrorMessage").classList.remove('hidden');
 		console.log(err.code, err.message);
-		liff.closeWindow();
 	});
 }
 
@@ -46,6 +45,7 @@ function initializeLiff(myLiffId) {
  * Initialize the app by calling functions handling individual app components
  */
 function initializeApp() {
+	liff.closeWindow();
 	displayIsInClientInfo();
 	registerButtonHandlers();
 	if (!liff.isLoggedIn() && !liff.isInClient()) {
