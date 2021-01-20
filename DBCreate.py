@@ -16,6 +16,16 @@ CREATE TABLE users (
 	CONSTRAINT users_pkey PRIMARY KEY (userid)
 );
 """
+#db.c.execute(sql)
 
+sql = """
+CREATE TABLE department (
+	id text NOT NULL,
+	level integer NOT NULL,
+	name text NOT NULL,
+	CONSTRAINT department_pkey PRIMARY KEY (id)
+);
+"""
 db.c.execute(sql)
+
 db.conn.commit()

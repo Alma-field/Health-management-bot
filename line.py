@@ -3,7 +3,13 @@ from flask import Blueprint, abort, current_app, request
 
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
-from linebot.models import MessageEvent, TextMessage, ImageMessage, TextSendMessage, TemplateSendMessage, ButtonsTemplate, MessageAction, QuickReply, QuickReplyButton
+from linebot.models import (
+	MessageEvent,
+	TextMessage, ImageMessage, TextSendMessage, FlexSendMessage,
+	ButtonsTemplate, QuickReply, QuickReplyButton,
+	BubbleContainer, BoxComponent, TextComponent, SpanComponent, ImageComponent, ButtonComponent,
+	MessageAction
+)
 
 from datetime import datetime
 
@@ -14,13 +20,13 @@ from database import line_db
 
 dbname = os.environ["DATABASE_URL"]
 #環境変数取得
-YOUR_CHANNEL_ACCESS_TOKEN = os.environ["CHANNEL_ACCESS_TOKEN"]
-YOUR_CHANNEL_SECRET = os.environ["CHANNEL_SECRET"]
+CHANNEL_ACCESS_TOKEN = os.environ["CHANNEL_ACCESS_TOKEN"]
+CHANNEL_SECRET = os.environ["CHANNEL_SECRET"]
 
 db = line_db(dbname)
 
-line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
-handler = WebhookHandler(YOUR_CHANNEL_SECRET)
+line_bot_api = LineBotApi(CHANNEL_ACCESS_TOKEN)
+handler = WebhookHandler(CHANNEL_SECRET)
 
 line = Blueprint(LINE_BPNAME, __name__)
 
@@ -128,17 +134,67 @@ def res_user_status(event):
 	if status_msg != "None":
 		# LINEに登録されているstatus_messageが空の場合は、"なし"という文字列を代わりの値とする
 		status_msg = "なし"
-	messages = TemplateSendMessage(
-		alt_text="ユーザー情報",
-		template=ButtonsTemplate(
-			thumbnail_image_url=profile.picture_url,
-			title=profile.display_name,
-			text=f"User Id: {profile.user_id[:5]}...\n"
-			f"Status Message: {status_msg}",
-			actions=[MessageAction(label="成功", text="？")]
+	message=FlexSendMessage(
+		alt_text='ユーザー情報',
+		contents=BubbleContainer(
+			header=BoxComponent(
+				layout="vertical",
+				background_color=f'{NOTICE_LEVEL_COLOR_LINE[level][0]}FF',
+				contents=[
+					TextComponent(
+						text='text',
+						align='center',
+						gravity='center',
+						contents=[
+							SpanComponent(text='ユーザー情報')
+						]
+					)
+				]
+			),#Header
+			hero=ImageComponent(
+				url=profile.picture_url,
+				size="full",
+				aspect_mode="fit",
+				action=None
+			),
+			body=BoxComponent(
+				layout="vertical",
+				contents=[
+					TextComponent(
+						text='text',
+						align='center',
+						gravity='center',
+						contents=[
+							SpanComponent(text=f'User Id: {profile.user_id}')
+						]
+					),
+					TextComponent(
+						text='text',
+						align='center',
+						gravity='center',
+						contents=[
+							SpanComponent(text=f'Status Message: {status_msg}')
+						]
+					)
+				]
+			),#Body
+			footer=BoxComponent(
+				layout="vertical",
+				contents=[
+					ButtonComponent(
+						action=MessageAction(label="成功", text="？")
+					)
+				]
+			)#Footer
 		)
 	)
 	line_bot_api.reply_message(event.reply_token, messages=messages)
+
+def Send_Pushmessage(user, message):
+	if type(message) is str:
+		line_bot_api.push_message(user, TextSendMessage(text=message))
+	else:
+		line_bot_api.push_message(user, message)
 
 def Send_Multicast(users, message):
 	if type(message) is str:
