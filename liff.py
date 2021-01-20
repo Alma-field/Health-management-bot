@@ -50,7 +50,7 @@ def Health():
 				message += '出社することが可能です。'
 			else:
 				message += '出社することはできません。'
-			current_app.line_bot_api.push_message(userid, TextSendMessage(text=))
+			current_app.line_bot_api.push_message(userid, TextSendMessage(text=message))
 			response = redirect('https://liff.line.me/1655595024-vRM2ojo9')
 		else:
 			abort(400)
