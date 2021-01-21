@@ -102,8 +102,8 @@ def stringmask(arg):
 	return Markup(''.join(['*']*len(arg)))
 
 @app.template_filter('truefalse')
-def stringmask(arg):
-	return Markup('有' if arg == str(True) else '無')
+def truefalse(arg):
+	return Markup('有' if arg else '無')
 
 ###################その他
 if __name__ == '__main__':

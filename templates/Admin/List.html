@@ -23,7 +23,7 @@
 	</thead>
 	<tbody>
 		{% for item in result %}
-		<tr{% if item[2] == today and (item[3] >= 37.5 or item[4] or item[5] or item[6] or item[7] or item[8] or item[9]) %} style="background-color: #e49e61;"{% endif %}>
+		<tr{% if item[2] == today and item[-1] %} style="background-color: #e49e61;"{% endif %}>
 			<td><a href="{{ url_for('Admin.ShowUser', cache=item[1]) }}" class="btn-sticky" style="border-left-color: #dccb18;">詳細</a></td>
 			<td>{{ names[item[1]] }}</td>
 			{% if item[2] == today %}
@@ -34,7 +34,7 @@
 				<td>{{ item[7] | truefalse }}</td>
 				<td>{{ item[8] | truefalse }}</td>
 				<td>{{ item[9] | truefalse }}</td>
-				<td>{% if item[3] >= 37.5 or item[4] or item[5] or item[6] or item[7] or item[8] or item[9] %}不可{% else %}可{% endif %}
+				<td>{% if item[-1] %}不可{% else %}可{% endif %}
 				</td>
 			{% else %}
 				<td colspan="8" class="red">本日のデータが存在しません。</td>
@@ -46,6 +46,9 @@
 			<th colspan="10"><span class="red">データが存在しません</span></th>
 		</tr>
 		{% endif %}
+		<tr>
+			<th colspan="10"><a href="{{ url_for('Admin.ConfigSetting') }}" class="btn-sticky">出勤可否設定</a></th>
+		</tr>
 	</tbody>
 </table>
 {% endblock %}

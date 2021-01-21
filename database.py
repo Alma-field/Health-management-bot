@@ -211,7 +211,7 @@ class line_db(database):
 			name_dict[item[0]] = item[1]
 		sql = 'SELECT id, userid, date, temperature, q1, q2, q3, q4, q5, q6 FROM ( SELECT *, row_number() OVER (PARTITION BY userid ORDER BY date DESC) AS number FROM condition ) AS data WHERE number=1 AND userid!=\'\';'
 		self.c.execute(sql)
-		result = self.c.fetchall()
+		result = list(map(list, self.c.fetchall()))
 		return result, name_dict
 
 	def get_user_health_data(self, cache):
@@ -223,7 +223,7 @@ class line_db(database):
 		results = {'id':[], 'date':[], 'temperature':[], 'q1':[], 'q2':[], 'q3':[], 'q4':[], 'q5':[], 'q6':[], 'Y/N':[], 'exist':[]}
 		count = 0
 		cnt = 0
-		config = [True, 37.5, True, 1]#self.get_config()
+		config = self.get_config()
 		nan = float('nan')
 		while before <= today:
 			if count < len(result) and result[count][2] == before:
@@ -260,3 +260,16 @@ class line_db(database):
 		self.c.execute(sql, (cache,))
 		name = self.c.fetchone()[0]
 		return name
+
+	def get_config(self):
+		sql = f'SELECT * FROM config LIMIT 1;'
+		self.c.execute(sql)
+		result = list(self.c.fetchone())
+		result[1] = float(result[1])
+		return result
+
+	def set_config(self, config):
+		sql = f'UPDATE config SET temperature_check={self.char}, temperature={self.char}, question_check={self.char}, question={self.char};'
+		self.c.execute(sql, tuple(config))
+		self.conn.commit()
+		return True

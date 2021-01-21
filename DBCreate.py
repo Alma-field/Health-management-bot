@@ -48,6 +48,18 @@ INSERT INTO condition (id, userid, date, temperature, q1, q2, q3, q4, q5, q6) VA
 #sql = "DROP TABLE condition;"
 #db.c.execute(sql)
 
-#db.conn.commit()
+sql = """
+CREATE TABLE config (
+	temperature_check BOOLEAN NOT NULL,
+	temperature numeric NOT NULL,
+	question_check BOOLEAN NOT NULL,
+	question integer NOT NULL
+);
+"""
+sql = 'INSERT INTO config (temperature_check, temperature, question_check, question) VALUES (\'true\', 37.5, \'true\', 1);'
+sql = 'UPDATE config SET temperature=37.0;'
+db.c.execute(sql)
+
+db.conn.commit()
 
 del db

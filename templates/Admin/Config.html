@@ -2,24 +2,45 @@
 {% block title %}
 <title>出勤可否設定</title>
 <link rel="stylesheet" type="text/css" href="{{ url_for('Static.css', file_name='button') }}">
+<script src="{{ url_for('Static.js', file_name='Config') }}" charset="utf-8"></script>
 {% endblock %}
 {% block body %}
 <h1>出勤可否設定</h1>
 <form action="{{ url_for('Admin.ConfigSetting') }}" method="POST" >
-
+	<table border>
+		<tbody>
+			<tr>
+				<th>体温</th>
+				<td>
+					<label for="temperature_check"><input type="checkbox" value="true" id="temperature_check" name="temperature_check" onchange="ChangeTempCheck();"{% if config[0] %} checked{% endif %}>体温で制限する</label><br>
+					<input type="number" id="temperature" name="temperature" value="{{ config[1] }}" min="35.0" max="39.0" step="0.1" onchange="ChangeTemp();"{% if not config[0] %} disabled{% endif %} required><br>
+					<span id="temp_limit"{% if not config[0] %} style="display: none;"{% endif %}><span id="temp_span">{{ config[1] }}</span>度以上で出社を不可とします。</span>
+					<span id="temp_nolimit"{% if config[0] %} style="display: none;"{% endif %}>体温で出社を制限しません。</span>
+				</td>
+			</tr>
+			<tr>
+				<th>質問</th>
+				<td>
+					<label for="question_check"><input type="checkbox" value="true" id="question_check" name="question_check" onchange="ChangeQuesCheck();"{% if config[2] %} checked{% endif %}>質問の数で制限する</label><br>
+					<input type="number" id="question" name="question" value="{{ config[3] }}" min="1" max="6" step="1" onchange="ChangeQues();"{% if not config[2] %} disabled{% endif %} required><br>
+					<span id="ques_limit"{% if not config[2] %} style="display: none;"{% endif %}><span id="ques_span">{{ config[3] }}</span>個以上当てはまると出社を不可とします。</span>
+					<span id="ques_nolimit"{% if config[2] %} style="display: none;"{% endif %}>質問で出社を制限しません。</span>
+					<br><hr><br>
+					<span>質問は以下の6個</span>
+					<ol>
+						<li>頭痛および喉の痛み</li>
+						<li>寒気・悪寒の有無</li>
+						<li>倦怠感や筋肉痛の有無</li>
+						<li>息苦しさの有無</li>
+						<li>味覚・嗅覚障害の有無</li>
+						<li>直近２週間以内の都道府県をまたぐ移動</li>
+					</ol>
+				</td>
+			</tr>
+			<tr>
+				<th colspan="2"><input type="submit" value="設定を保存する"></th>
+			</tr>
+		</tbody>
+	</table>
 </form>
-<table border>
-	<tbody>
-		<tr>
-			<th>体温</th>
-			<td>
-				<input type="checkbox" id="temperature_check" name="temperature_check" checked>
-				<input type="number" name="temperature" value="37.5" min="35.0" max="39.0" step="0.1" required>
-			</td>
-		</tr>
-		<tr>
-			<th colspan="2"><input type="submit" value="設定を保存する"></th>
-		</tr>
-	</tbody>
-</table>
 {% endblock %}

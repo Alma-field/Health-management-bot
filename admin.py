@@ -1,6 +1,6 @@
 from datetime import date
 
-from flask import Blueprint, make_response, render_template, request, abort, redirect, current_app
+from flask import Blueprint, make_response, render_template, request, abort, redirect, url_for, current_app
 from linebot.models import TextSendMessage
 
 import pandas as pd
@@ -19,21 +19,35 @@ admin = Blueprint(ADMIN_BPNAME, __name__)
 def ShowList():
 	result, names = current_app.db.get_newest_health_data()
 	today = date.today()
-	response = make_response(render_template(f'{ADMIN_BPNAME}/List.html', result=result, names=names, today=today))
+	config = current_app.db.get_config()
+	for i in range(len(result)):
+		result[i].append((config[0] and result[i][3] >= config[1]) or (config[2] and result[i][4:].count(True) >= config[3]))
+	response = make_response(render_template(f'{ADMIN_BPNAME}/List.html', result=result, names=names, today=today, config=config))
 	return response
 
 @admin.route('/user/<cache>')
 def ShowUser(cache):
 	name = current_app.db.get_name_by_cache(cache)
 	results = current_app.db.get_user_health_data(cache)
-	config = [True, 37.5, True, 1]#self.get_config()
+	config = current_app.db.get_config()
 	script, div = create_graph(results, config)
 	response = make_response(render_template(f'{ADMIN_BPNAME}/User.html', script=script, div=div, results=results, name=name, count=results['exist'].count(True)))
 	return response
 
-@admin.route('/config')
+@admin.route('/config', methods=['GET', 'POST'])
 def ConfigSetting():
-	return 'Setting'
+	if request.method in ['GET', 'HEAD']:
+		config = current_app.db.get_config()
+		response = make_response(render_template(f'{ADMIN_BPNAME}/Config.html', config=config))
+	else:
+		config = []
+		config.append(request.form.get('temperature_check', 'false') == 'true')
+		config.append(float(request.form.get('temperature', '37.5')))
+		config.append(request.form.get('question_check', 'false') == 'true')
+		config.append(int(request.form.get('question', '1')))
+		current_app.db.set_config(config)
+		response = redirect(url_for(f'{ADMIN_BPNAME}.ShowList'))
+	return response
 
 def create_graph(results, config):
 	# Bokeh描画用データ
