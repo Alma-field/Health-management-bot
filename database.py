@@ -125,7 +125,7 @@ class line_db(database):
 		cache = self.generate_cookies()
 		showname = name
 		sql = f'INSERT INTO users (userid,name,status,role,liff_status,cache,showname) VALUES ({", ".join([self.char]*7)});'
-		self.c.execute(sql,(userid,username,status,role,liff_status,cache))
+		self.c.execute(sql,(userid,username,status,role,liff_status,cache,showname))
 		self.conn.commit()
 
 	def get_user_by_id(self,userid,key=[]):
