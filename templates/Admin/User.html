@@ -30,7 +30,7 @@
 	<tbody>
 		{% for i in results['id'] %}
 		<tr{% if not results['Y/N'][i] %} style="background-color: #e49e61;"{% endif %}>
-			<th>{{ results['date'][i] }}</th>
+			<th>{{ results['date'][i].strftime("%Y-%m-%d") }}</th>
 			{% if results['exist'][i] %}
 				<td>{{ results['temperature'][i] }}℃</td>
 				<td>{{ results['q1'][i] | truefalse }}</td>
