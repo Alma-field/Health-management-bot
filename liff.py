@@ -45,7 +45,7 @@ def Health():
 			#print(temperature, question)
 			data = [temperature] + question
 			cache = current_app.db.get_user_by_id(userid, key=['cache'])
-			current_app.db.set_health_data(userid, data)
+			current_app.db.set_health_data(cache, data)
 			message = '回答ありがとうございます。\n'
 			if temperature >= 37.5 or any(question):
 				message += '出社することはできません。'
