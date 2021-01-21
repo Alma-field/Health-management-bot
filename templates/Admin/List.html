@@ -34,6 +34,8 @@
 				<td>{{ item[7] | truefalse }}</td>
 				<td>{{ item[8] | truefalse }}</td>
 				<td>{{ item[9] | truefalse }}</td>
+				<td>{% if item[3] >= 37.5 or item[4] or item[5] or item[6] or item[7] or item[8] or item[9] %}可{% else %}不可{% endif %}
+				</td>
 			{% else %}
 				<td colspan="8" class="red">本日のデータが存在しません。</td>
 			{% endif %}
