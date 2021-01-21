@@ -8,11 +8,11 @@ from flask import abort
 from Config import *
 
 if version_info.minor >= 9:
-	from datetime import datetime, timedelta
+	from datetime import date, datetime, timedelta, time
 	from zoneinfo import ZoneInfo
 	JST = ZoneInfo("Asia/Tokyo")
 else:
-	from datetime import datetime, timedelta, timezone
+	from datetime import date, datetime, timedelta, time, timezone
 	JST = timezone(timedelta(hours=+9), 'JST')
 
 cookie_candidate = digits+ascii_uppercase+ascii_lowercase
@@ -202,7 +202,7 @@ class line_db(database):
 		self.conn.commit()
 		return True
 
-	def get_newest_helth_data(self):
+	def get_newest_health_data(self):
 		sql = 'SELECT cache, showname FROM users;'
 		self.c.execute(sql)
 		result = self.c.fetchall()
@@ -213,3 +213,50 @@ class line_db(database):
 		self.c.execute(sql)
 		result = self.c.fetchall()
 		return result, name_dict
+
+	def get_user_health_data(self, cache):
+		today = date.today()
+		before = today - timedelta(days=14)
+		sql = f'SELECT * FROM condition WHERE userid={self.char} AND date BETWEEN {self.char} AND {self.char} ORDER BY date ASC;'
+		self.c.execute(sql, (cache, before, today))
+		result = self.c.fetchall()
+		results = {'id':[], 'date':[], 'temperature':[], 'q1':[], 'q2':[], 'q3':[], 'q4':[], 'q5':[], 'q6':[], 'Y/N':[], 'exist':[]}
+		count = 0
+		cnt = 0
+		config = [True, 37.5, True, 1]#self.get_config()
+		nan = float('nan')
+		while before <= today:
+			if result[count][2] == before:
+				results['id'].append(cnt)
+				results['date'].append(datetime.combine(before, time()))
+				results['temperature'].append(result[count][3])
+				results['q1'].append(result[count][4])
+				results['q2'].append(result[count][5])
+				results['q3'].append(result[count][6])
+				results['q4'].append(result[count][7])
+				results['q5'].append(result[count][8])
+				results['q6'].append(result[count][9])
+				results['Y/N'].append(not ((config[0] and results['temperature'][-1] >= config[1]) or (config[2] and result[count][4:].count(True) >= config[3])))
+				results['exist'].append(True)
+				count += 1
+			else:
+				results['id'].append(cnt)
+				results['date'].append(before)
+				results['temperature'].append(nan)
+				results['q1'].append(False)
+				results['q2'].append(False)
+				results['q3'].append(False)
+				results['q4'].append(False)
+				results['q5'].append(False)
+				results['q6'].append(False)
+				results['Y/N'].append(True)
+				results['exist'].append(False)
+			before += timedelta(days=1)
+			cnt += 1
+		return results
+
+	def get_name_by_cache(self, cache):
+		sql = f'SELECT showname FROM users WHERE cache={self.char};'
+		self.c.execute(sql, (cache,))
+		name = self.c.fetchone()[0]
+		return name

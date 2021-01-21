@@ -1,0 +1,56 @@
+{% extends "index.html" %}
+{% block title %}
+<title>体調管理リスト</title>
+<link rel="stylesheet" type="text/css" href="{{ url_for('Static.css', file_name='button') }}">
+<!-- Bokeh -->
+<link rel="stylesheet" href="http://cdn.pydata.org/bokeh/release/bokeh-1.2.0.min.css" type="text/css" />
+<script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-2.2.3.min.js"></script>
+<script type="text/javascript">Bokeh.set_log_level("info");</script>
+{% endblock %}
+{% block body %}
+<h1>{{ name }}さんの記録</h1>
+<div style="height: 400px;">
+	{{ div | safe }}
+	{{ script | safe }}
+</div>
+<table border>
+	<thead>
+		<tr>
+			<th>日付</th>
+			<th>体温</th>
+			<th>頭痛<br>のどの痛み</th>
+			<th>寒気<br>悪寒</th>
+			<th>倦怠感<br>(筋肉痛)</th>
+			<th>息苦しさ</th>
+			<th>味覚異常<br>嗅覚異常</th>
+			<th>最近二週間<br>県を越境</th>
+			<th>出社の可否</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for i in results['id'] %}
+		<tr{% if not results['Y/N'][i] %} style="background-color: #e49e61;"{% endif %}>
+			<th>{{ results['date'][i] }}</th>
+			{% if results['exist'][i] %}
+				<td>{{ results['temperature'][i] }}℃</td>
+				<td>{{ results['q1'][i] | truefalse }}</td>
+				<td>{{ results['q2'][i] | truefalse }}</td>
+				<td>{{ results['q3'][i] | truefalse }}</td>
+				<td>{{ results['q4'][i] | truefalse }}</td>
+				<td>{{ results['q5'][i] | truefalse }}</td>
+				<td>{{ results['q6'][i] | truefalse }}</td>
+				<td>{% if results['Y/N'][i] %}可{% else %}不可{% endif %}
+				</td>
+			{% else %}
+				<th colspan="8" class="red">データが存在しません。</th>
+			{% endif %}
+		</tr>
+		{% endfor %}
+		{% if count == 0 %}
+		<tr>
+			<th colspan="9"><span class="red">データが存在しません</span></th>
+		</tr>
+		{% endif %}
+	</tbody>
+</table>
+{% endblock %}

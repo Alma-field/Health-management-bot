@@ -72,5 +72,5 @@ message = FlexSendMessage(
 		)#Footer
 	)
 )
-#line_bot_api.broadcast(messages=message)
-line_bot_api.push_message('U1f2cdd28b53271f4fdf8092b9dd9b5cf', messages=message)
+line_bot_api.broadcast(messages=message)
+#line_bot_api.push_message('U1f2cdd28b53271f4fdf8092b9dd9b5cf', messages=message)
