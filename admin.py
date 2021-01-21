@@ -76,6 +76,7 @@ def create_graph(results, config):
 
 	# メインチャート
 	line = p.line('date', 'temperature', source=source, line_width=2)
+	p.circle('date', 'temperature', source=source, line_width=5)
 
 	# 吹き出し
 	hover = HoverTool(

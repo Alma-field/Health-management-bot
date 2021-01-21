@@ -226,7 +226,8 @@ class line_db(database):
 		config = [True, 37.5, True, 1]#self.get_config()
 		nan = float('nan')
 		while before <= today:
-			if result[count][2] == before:
+			print(count, len(result))
+			if count < len(result) and result[count][2] == before:
 				results['id'].append(cnt)
 				results['date'].append(datetime.combine(before, time()))
 				results['temperature'].append(result[count][3])
