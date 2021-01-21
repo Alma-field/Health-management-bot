@@ -146,7 +146,6 @@ def res_user_status(event):
 		contents=BubbleContainer(
 			header=BoxComponent(
 				layout="vertical",
-				background_color=f'{NOTICE_LEVEL_COLOR_LINE[level][0]}FF',
 				contents=[
 					TextComponent(
 						text='text',
