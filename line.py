@@ -194,7 +194,7 @@ def res_user_status(event):
 			)#Footer
 		)
 	)
-	line_bot_api.reply_message(event.reply_token, messages=messages)
+	line_bot_api.reply_message(event.reply_token, messages=message)
 
 def Send_Pushmessage(user, message):
 	if type(message) is str:
