@@ -1,0 +1,9 @@
+bokeh
+flask
+flask-sqlalchemy
+gunicorn
+line-bot-sdk
+mysql-connector-python
+pandas
+psycopg2
+python-dotenv
